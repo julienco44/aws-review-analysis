@@ -1,0 +1,112 @@
+[
+  {
+    "reviewerID": "A1B2C3D4E5",
+    "asin": "B000123456",
+    "reviewerName": "John Doe",
+    "helpful": [2, 3],
+    "reviewText": "This product is absolutely amazing! I love how it works and the quality is outstanding. Highly recommend to everyone.",
+    "overall": 5.0,
+    "summary": "Excellent product, highly recommended",
+    "unixReviewTime": 1640995200,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "F6G7H8I9J0",
+    "asin": "B000123457",
+    "reviewerName": "Jane Smith",
+    "helpful": [1, 1],
+    "reviewText": "This is the worst piece of crap I've ever bought. It's completely useless and a waste of money. Don't buy this shit!",
+    "overall": 1.0,
+    "summary": "Terrible product, waste of money",
+    "unixReviewTime": 1640995201,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "K1L2M3N4O5",
+    "asin": "B000123458",
+    "reviewerName": "Bob Wilson",
+    "helpful": [5, 7],
+    "reviewText": "The product is okay, nothing special but it does what it's supposed to do. Average quality for the price.",
+    "overall": 3.0,
+    "summary": "Average product, meets expectations",
+    "unixReviewTime": 1640995202,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "P6Q7R8S9T0",
+    "asin": "B000123459",
+    "reviewerName": "Alice Johnson",
+    "helpful": [3, 4],
+    "reviewText": "I'm really disappointed with this purchase. The product broke after a week and customer service was horrible. This is bullshit!",
+    "overall": 2.0,
+    "summary": "Disappointing experience",
+    "unixReviewTime": 1640995203,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "U1V2W3X4Y5",
+    "asin": "B000123460",
+    "reviewerName": "Charlie Brown",
+    "helpful": [8, 10],
+    "reviewText": "Fantastic product! Exceeded all my expectations. The build quality is superb and the features are incredible.",
+    "overall": 5.0,
+    "summary": "Fantastic product, exceeded expectations",
+    "unixReviewTime": 1640995204,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "A1B2C3D4E5",
+    "asin": "B000123461",
+    "reviewerName": "John Doe",
+    "helpful": [1, 2],
+    "reviewText": "This is another terrible product. I can't believe how bad this is. What a piece of garbage!",
+    "overall": 1.0,
+    "summary": "Another terrible product",
+    "unixReviewTime": 1640995205,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "A1B2C3D4E5",
+    "asin": "B000123462",
+    "reviewerName": "John Doe",
+    "helpful": [0, 1],
+    "reviewText": "I'm so angry about this purchase. This is the third time I've been ripped off. Fuck this company!",
+    "overall": 1.0,
+    "summary": "Angry about poor quality",
+    "unixReviewTime": 1640995206,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "Z6A7B8C9D0",
+    "asin": "B000123463",
+    "reviewerName": "Diana Prince",
+    "helpful": [12, 15],
+    "reviewText": "This product is simply wonderful! I use it every day and it has made my life so much easier. Great value for money.",
+    "overall": 5.0,
+    "summary": "Wonderful product, great value",
+    "unixReviewTime": 1640995207,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "E1F2G3H4I5",
+    "asin": "B000123464",
+    "reviewerName": "Tony Stark",
+    "helpful": [20, 25],
+    "reviewText": "Incredible technology! This is exactly what I was looking for. The innovation behind this product is mind-blowing.",
+    "overall": 5.0,
+    "summary": "Incredible technology and innovation",
+    "unixReviewTime": 1640995208,
+    "reviewTime": "01 1, 2022"
+  },
+  {
+    "reviewerID": "J6K7L8M9N0",
+    "asin": "B000123465",
+    "reviewerName": "Peter Parker",
+    "helpful": [6, 8],
+    "reviewText": "Not bad, but could be better. The product works but there are some minor issues that need to be addressed.",
+    "overall": 3.0,
+    "summary": "Not bad but could be better",
+    "unixReviewTime": 1640995209,
+    "reviewTime": "01 1, 2022"
+  }
+] 
