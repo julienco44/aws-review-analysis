@@ -1,27 +1,27 @@
 {
   "processing_summary": {
-    "total_reviews": 50,
-    "processed_reviews": 50,
+    "total_reviews": 5000,
+    "processed_reviews": 5000,
     "failed_reviews": 0,
     "success_rate": 100.0
   },
   "sentiment_analysis": {
     "counts": {
-      "positive": 42,
-      "negative": 6,
-      "neutral": 2
+      "positive": 3951,
+      "negative": 643,
+      "neutral": 406
     },
     "percentages": {
-      "positive": 84.0,
-      "negative": 12.0,
-      "neutral": 4.0
+      "positive": 79.02,
+      "negative": 12.86,
+      "neutral": 8.12
     }
   },
   "profanity_analysis": {
-    "reviews_with_profanity": 16,
-    "profanity_rate_percent": 32.0,
-    "users_with_profanity": 16,
+    "reviews_with_profanity": 781,
+    "profanity_rate_percent": 15.620000000000001,
+    "users_with_profanity": 781,
     "banned_users": 0
   },
-  "timestamp": "2025-06-29T17:25:35.093159"
+  "timestamp": "2025-06-29T18:08:33.255655"
 }
