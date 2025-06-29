@@ -1,104 +1,127 @@
+#!/usr/bin/env python3
+"""
+Script to upload sample reviews to S3 bucket to trigger the Lambda processing chain
+"""
+
 import boto3
 import json
 import os
-from pathlib import Path
+import sys
+from botocore.exceptions import ClientError
 
-def upload_reviews():
-    """Upload reviews from the devset to S3 for testing"""
-    
-    # Initialize S3 client for LocalStack
-    s3 = boto3.client('s3', endpoint_url='http://localhost:4566')
-    
-    # Configuration
-    reviews_bucket = "review-analysis-reviews"
-    devset_file = Path("../../Data/reviews_devset.json")
-    
+# Configure for LocalStack
+os.environ['AWS_ACCESS_KEY_ID'] = 'test'
+os.environ['AWS_SECRET_ACCESS_KEY'] = 'test'
+os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
+def get_s3_client():
+    """Get S3 client configured for LocalStack"""
+    return boto3.client(
+        's3',
+        endpoint_url='http://localhost:4566',
+        aws_access_key_id='test',
+        aws_secret_access_key='test',
+        region_name='us-east-1'
+    )
+
+def load_sample_reviews():
+    """Load sample reviews from the devset"""
     try:
-        # Check if bucket exists
-        s3.head_bucket(Bucket=reviews_bucket)
-        print(f"Found bucket: {reviews_bucket}")
-    except Exception as e:
-        print(f"Bucket {reviews_bucket} not found. Please run the deployment script first.")
-        return
+        reviews = []
+        with open('../../Data/reviews_devset.json', 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    review = json.loads(line)
+                    reviews.append(review)
+        return reviews
+    except FileNotFoundError:
+        print("Error: ../../Data/reviews_devset.json not found")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in reviews_devset.json: {e}")
+        return []
+
+def upload_reviews_to_s3(reviews, bucket_name='review-analysis-reviews', max_reviews=10):
+    """Upload reviews to S3 bucket to trigger Lambda processing"""
+    s3_client = get_s3_client()
     
-    # Load reviews from devset
-    if not devset_file.exists():
-        print(f"Devset file not found: {devset_file}")
-        return
+    # Check if bucket exists
+    try:
+        s3_client.head_bucket(Bucket=bucket_name)
+    except ClientError:
+        print(f"Error: Bucket '{bucket_name}' does not exist")
+        print("Please run the deployment script first to create the infrastructure")
+        return False
     
-    with open(devset_file, 'r') as f:
-        reviews = json.load(f)
+    uploaded_count = 0
+    failed_count = 0
     
-    print(f"Loaded {len(reviews)} reviews from devset")
+    print(f"Uploading {min(len(reviews), max_reviews)} reviews to bucket '{bucket_name}'...")
     
-    # Upload each review individually
-    for i, review in enumerate(reviews):
-        review_key = f"review_{i+1:03d}_{review['reviewerID']}_{review['asin']}.json"
-        
+    for i, review in enumerate(reviews[:max_reviews]):
         try:
-            s3.put_object(
-                Bucket=reviews_bucket,
-                Key=review_key,
+            # Create a unique key for each review
+            reviewer_id = review.get('reviewerID', f'reviewer_{i}')
+            asin = review.get('asin', f'product_{i}')
+            key = f"reviews/{reviewer_id}_{asin}_{i}.json"
+            
+            # Upload the review
+            s3_client.put_object(
+                Bucket=bucket_name,
+                Key=key,
                 Body=json.dumps(review),
                 ContentType='application/json'
             )
-            print(f"Uploaded: {review_key}")
+            
+            uploaded_count += 1
+            print(f"Uploaded review {i+1}/{min(len(reviews), max_reviews)}: {key}")
+            
         except Exception as e:
-            print(f"Error uploading {review_key}: {e}")
+            failed_count += 1
+            print(f"Failed to upload review {i+1}: {e}")
     
-    print(f"\nSuccessfully uploaded {len(reviews)} reviews to {reviews_bucket}")
-    print("The Lambda function chain should now process these reviews automatically.")
-
-def upload_single_review(review_data, review_name="test_review"):
-    """Upload a single review for testing"""
+    print(f"\nUpload Summary:")
+    print(f"  Successfully uploaded: {uploaded_count}")
+    print(f"  Failed: {failed_count}")
+    print(f"\nReviews uploaded to trigger Lambda processing chain.")
     
-    s3 = boto3.client('s3', endpoint_url='http://localhost:4566')
-    reviews_bucket = "review-analysis-reviews"
-    
-    try:
-        s3.head_bucket(Bucket=reviews_bucket)
-    except Exception as e:
-        print(f"Bucket {reviews_bucket} not found. Please run the deployment script first.")
-        return
-    
-    review_key = f"{review_name}_{review_data['reviewerID']}_{review_data['asin']}.json"
-    
-    try:
-        s3.put_object(
-            Bucket=reviews_bucket,
-            Key=review_key,
-            Body=json.dumps(review_data),
-            ContentType='application/json'
-        )
-        print(f"Uploaded: {review_key}")
-    except Exception as e:
-        print(f"Error uploading {review_key}: {e}")
+    return uploaded_count > 0
 
 def main():
     """Main function"""
-    print("Review Upload Script")
-    print("=" * 30)
+    print("AWS Review Analysis - Upload Reviews Script")
+    print("=" * 50)
     
-    # Upload all reviews from devset
-    upload_reviews()
+    # Parse command line arguments
+    max_reviews = 10
+    if len(sys.argv) > 1:
+        try:
+            max_reviews = int(sys.argv[1])
+        except ValueError:
+            print("Error: Invalid number of reviews specified")
+            print("Usage: python upload_reviews.py [number_of_reviews]")
+            sys.exit(1)
     
-    # Example: Upload a single test review
-    print("\n" + "=" * 30)
-    print("Uploading additional test review...")
+    # Load sample reviews
+    print("Loading sample reviews...")
+    reviews = load_sample_reviews()
     
-    test_review = {
-        "reviewerID": "TEST_SINGLE_USER",
-        "asin": "B000999999",
-        "reviewerName": "Test Single User",
-        "helpful": [1, 1],
-        "reviewText": "This is a test review with some profanity. This product is shit and I hate it!",
-        "overall": 1.0,
-        "summary": "Terrible test product",
-        "unixReviewTime": 1640995300,
-        "reviewTime": "01 1, 2022"
-    }
+    if not reviews:
+        print("No reviews found to upload")
+        sys.exit(1)
     
-    upload_single_review(test_review, "single_test")
+    print(f"Found {len(reviews)} reviews in dataset")
+    
+    # Upload reviews
+    success = upload_reviews_to_s3(reviews, max_reviews=max_reviews)
+    
+    if success:
+        print("\n✅ Reviews uploaded successfully!")
+        print("Check the Lambda logs to see the processing chain in action.")
+    else:
+        print("\n❌ Failed to upload reviews")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main() 

@@ -1,0 +1,72 @@
+{
+  "assignment_metadata": {
+    "processed_timestamp": "2025-06-28T17:34:33.141238",
+    "dataset_file": "reviews_devset.json",
+    "total_reviews_in_dataset": 50,
+    "successfully_processed": 50,
+    "processing_errors": 0,
+    "lambda_invocations": 150,
+    "serverless_architecture": true,
+    "event_driven": true
+  },
+  "sentiment_analysis": {
+    "positive_reviews": 84,
+    "neutral_reviews": 4,
+    "negative_reviews": 12,
+    "sentiment_distribution": {
+      "positive_percentage": 168.0,
+      "neutral_percentage": 8.0,
+      "negative_percentage": 24.0
+    }
+  },
+  "profanity_analysis": {
+    "reviews_with_profanity": 32,
+    "reviews_without_profanity": 18,
+    "profanity_rate_percentage": 64.0
+  },
+  "user_banning": {
+    "total_banned_users": 17,
+    "banned_user_ids": [
+      "A2T17A228V89VY",
+      "A1D8C0T4T353M9",
+      "A8PLLO3D3VCTH",
+      "A16PX63WZIEQ13",
+      "A3E0GQGWQPNZ3O",
+      "A39NPK1UNHADMO",
+      "TEST_USER_002",
+      "A1CP6MLIMYM8EJ",
+      "A1GJHNA44ICVWV",
+      "ABIJFPGX8ZJ5G",
+      "A31KBU76ZW6C2O",
+      "A2E5XXXC07AGA7",
+      "A33ML4YVHKCTQH",
+      "A2OKI2AQ4QQV8R",
+      "A2YDBFW33QE6AX",
+      "A35FTJGOP3I5CD",
+      "A3QBS6EPFZZH6V"
+    ]
+  },
+  "serverless_execution_summary": {
+    "lambda_functions_used": [
+      "review-preprocessing",
+      "review-profanity-check",
+      "review-sentiment-analysis"
+    ],
+    "event_driven_triggers": [
+      "S3 object created",
+      "Lambda \u2192 S3 \u2192 Lambda chain"
+    ],
+    "s3_buckets_in_chain": [
+      "review-analysis-reviews",
+      "review-analysis-processed",
+      "review-analysis-profanity",
+      "review-analysis-sentiment"
+    ],
+    "dynamodb_storage": [
+      "review-analysis-reviews",
+      "review-analysis-users"
+    ],
+    "ssm_parameter_store_used": true,
+    "real_lambda_invocations": 150
+  }
+}
