@@ -4,17 +4,17 @@
 
 This project implements a **complete event-driven serverless application** that meets all Assignment 3 requirements:
 
-✅ **Three Lambda Functions**: preprocessing, profanity-check, sentiment-analysis  
-✅ **Event-Driven Architecture**: S3 → Lambda → S3 → Lambda chain  
-✅ **Real Lambda Function Invocations**: Uses AWS API calls (not simulations)  
-✅ **SSM Parameter Store**: For configuration management  
-✅ **DynamoDB**: For data storage and user banning logic  
-✅ **Integration Tests**: Automated testing of all functionality  
-✅ **Dataset Processing**: Processes reviews_devset.json with results generation  
+**Three Lambda Functions**: preprocessing, profanity-check, sentiment-analysis  
+**Event-Driven Architecture**: S3 → Lambda → S3 → Lambda chain  
+**Real Lambda Function Invocations**: Uses AWS API calls (not simulations)  
+**SSM Parameter Store**: For configuration management  
+**DynamoDB**: For data storage and user banning logic  
+**Integration Tests**: Automated testing of all functionality  
+**Dataset Processing**: Processes reviews_devset.json with results generation  
 
 ---
 
-## 📁 Essential Project Files
+## Essential Project Files
 
 ### **Core Lambda Functions**
 - `src/aws/preprocessing_lambda.py` - Text preprocessing (tokenization, stop words, lemmatization)
@@ -36,7 +36,7 @@ This project implements a **complete event-driven serverless application** that 
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Setup Environment
 ```bash
@@ -71,7 +71,7 @@ python -m pytest test_review_analysis.py -v
 
 ---
 
-## 📊 Results
+## Results
 
 The pipeline processes the complete dataset and generates:
 - **Sentiment Analysis**: Positive/Negative/Neutral review counts
@@ -81,7 +81,7 @@ The pipeline processes the complete dataset and generates:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 Review Upload → S3 → Preprocessing Lambda → S3 → Profanity Check Lambda → S3 → Sentiment Analysis Lambda → Results
@@ -95,5 +95,5 @@ Review Upload → S3 → Preprocessing Lambda → S3 → Profanity Check Lambda 
 3. Profanity results stored in S3 trigger sentiment analysis Lambda
 4. All stages update DynamoDB for user tracking and banning logic
 
-This implementation uses **real AWS Lambda function invocations** via the AWS API to ensure authentic serverless behavior as required by the assignment.
+This implementation uses **AWS Lambda function invocations** via the AWS API to ensure authentic serverless behavior.
 
